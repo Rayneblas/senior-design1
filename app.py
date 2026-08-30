@@ -63,6 +63,19 @@ def chat():
 # assistant reply and asks model_client for a new one using the same
 # last user message.
 
+@app.route("/api/regenerate", methods=["POST"])
+def regenerate():
+    if conversation and conversation[-1]["role"] == "assistant":
+        conversation.pop()
+
+    reply = model_client.chat(conversation, system_prompt=None)
+    conversation.append(reply)
+
+    return jsonify({"reply": reply["content"]})
+    
+
+    
+
 
 @app.route("/api/reset", methods=["POST"])
 def reset():
