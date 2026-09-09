@@ -76,7 +76,7 @@ def regenerate():
 
     
 
-
+ 
 @app.route("/api/reset", methods=["POST"])
 def reset():
     """Clears the in-memory conversation. Useful while testing."""
