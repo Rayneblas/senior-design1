@@ -1,6 +1,7 @@
 const form = document.getElementById("chat-form");
 const input = document.getElementById("message-input");
 const log = document.getElementById("chat-log");
+const regenerateButton = document.getElementById("regenerate-button");
 
 function appendMessage(role, text) {
   const div = document.createElement("div");
@@ -9,6 +10,20 @@ function appendMessage(role, text) {
   log.appendChild(div);
   log.scrollTop = log.scrollHeight;
 }
+
+regenerateButton.addEventListener("click", async() => {
+
+  // Removes the last message from the chat log
+  if (log.lastChild) log.lastChild.remove();
+
+  const res = await fetch("/api/regenerate", { method: "POST" });
+
+  const data = await res.json();
+
+  appendMessage("assistant", data.reply);
+
+}); 
+
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
